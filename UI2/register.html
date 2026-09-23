@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Đăng ký | NEXUS</title><meta name="description" content="Tạo tài khoản khách hàng Nexus.">
+  <link rel="stylesheet" href="styles.css"><link rel="preload" href="assets/fonts/noto-serif-display-regular.ttf" as="font" type="font/ttf" crossorigin><link rel="stylesheet" href="boutique.css?v=font-2"><script src="auth.js" defer></script>
+</head>
+<body class="auth-page customer-auth-page register-page">
+  <main class="auth-shell">
+    <section class="auth-intro auth-customer-visual" aria-labelledby="register-intro-title">
+      <a href="index.html" class="auth-brand" aria-label="Nexus — về trang chủ"><span>NEXUS</span><small>Menswear &amp; Tailoring</small></a>
+      <div class="auth-intro-copy"><h1 id="register-intro-title">Bắt đầu từ những lựa chọn phù hợp.</h1><p>Tạo tài khoản để lưu các món đồ quan tâm và quay lại bộ sưu tập Nexus thuận tiện hơn.</p></div>
+      <a href="about.html" class="auth-visual-link">Về Nexus <span aria-hidden="true">→</span></a>
+    </section>
+    <section class="auth-panel" aria-labelledby="register-title"><div class="auth-panel-inner">
+      <header class="auth-header"><h2 id="register-title" class="auth-title">Đăng ký</h2><p class="auth-desc">Tạo tài khoản khách hàng trên thiết bị này.</p></header>
+      <div id="register-alert" class="auth-alert" role="alert" hidden></div>
+      <form id="register-form" novalidate>
+        <div class="form-group"><label for="register-name">Họ và tên</label><input id="register-name" class="form-control" required autocomplete="name"></div>
+        <div class="form-group"><label for="register-email">Email</label><input type="email" id="register-email" class="form-control" placeholder="ten@email.com" required autocomplete="email"></div>
+        <div class="form-group"><label for="register-password">Mật khẩu</label><input type="password" id="register-password" class="form-control" minlength="6" placeholder="Tối thiểu 6 ký tự" required autocomplete="new-password"></div>
+        <div class="form-group"><label for="register-confirm">Nhập lại mật khẩu</label><input type="password" id="register-confirm" class="form-control" minlength="6" required autocomplete="new-password"></div>
+        <button type="submit" class="btn btn-primary auth-submit">Tạo tài khoản <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></svg></button>
+      </form>
+      <p class="auth-switch">Đã có tài khoản? <a href="login.html">Đăng nhập</a></p><a href="index.html" class="auth-back-link">← Quay lại trang chủ</a>
+    </div></section>
+  </main>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (isLoggedIn()) { window.location.href = 'login.html'; return; }
+      const form = document.getElementById('register-form'), alertBox = document.getElementById('register-alert');
+      form.addEventListener('submit', async event => { event.preventDefault(); alertBox.hidden = true; if (!form.checkValidity()) { alertBox.textContent = 'Vui lòng điền đầy đủ thông tin và dùng mật khẩu từ 6 ký tự.'; alertBox.hidden = false; form.reportValidity(); return; } const password = document.getElementById('register-password').value; if (password !== document.getElementById('register-confirm').value) { alertBox.textContent = 'Hai mật khẩu chưa trùng khớp.'; alertBox.hidden = false; return; } const result = await registerCustomer(document.getElementById('register-name').value, document.getElementById('register-email').value, password); if (result.success) { window.location.href = 'login.html'; return; } alertBox.textContent = result.message; alertBox.hidden = false; });
+    });
+  </script>
+</body></html>

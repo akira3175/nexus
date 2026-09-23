@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Đăng nhập | NEXUS</title><meta name="description" content="Đăng nhập tài khoản khách hàng Nexus.">
+  <link rel="stylesheet" href="styles.css"><link rel="preload" href="assets/fonts/noto-serif-display-regular.ttf" as="font" type="font/ttf" crossorigin><link rel="stylesheet" href="boutique.css?v=font-2"><script src="auth.js" defer></script>
+</head>
+<body class="auth-page customer-auth-page login-page">
+  <main class="auth-shell">
+    <section class="auth-intro auth-customer-visual" aria-labelledby="auth-intro-title">
+      <a href="index.html" class="auth-brand" aria-label="Nexus — về trang chủ"><span>NEXUS</span><small>Menswear &amp; Tailoring</small></a>
+      <div class="auth-intro-copy"><h1 id="auth-intro-title">Một tủ đồ được xây dựng có chủ đích.</h1><p>Lưu sản phẩm yêu thích, theo dõi giỏ hàng và tiếp tục trải nghiệm Nexus trên thiết bị này.</p></div>
+      <a href="collection.html" class="auth-visual-link">Xem bộ sưu tập <span aria-hidden="true">→</span></a>
+    </section>
+    <section class="auth-panel" aria-labelledby="login-title"><div class="auth-panel-inner">
+      <div id="account-view" hidden><header class="auth-header"><h2 class="auth-title">Tài khoản của bạn</h2><p class="auth-desc" id="account-summary"></p></header><a href="collection.html" class="btn btn-primary auth-submit">Tiếp tục mua sắm <span aria-hidden="true">→</span></a><button type="button" id="logout-btn" class="auth-text-button auth-logout">Đăng xuất</button></div>
+      <div id="login-view">
+        <header class="auth-header"><h2 id="login-title" class="auth-title">Đăng nhập</h2><p class="auth-desc">Tiếp tục với tài khoản khách hàng Nexus.</p></header>
+        <div id="login-alert" class="auth-alert" role="alert" hidden></div>
+        <form id="login-form" novalidate>
+          <div class="form-group"><label for="customer-email">Email</label><input type="email" id="customer-email" class="form-control" placeholder="ten@email.com" required autocomplete="email"></div>
+          <div class="form-group"><div class="auth-field-heading"><label for="customer-password">Mật khẩu</label><button type="button" id="toggle-password-btn" class="auth-text-button" aria-controls="customer-password">Hiện mật khẩu</button></div><input type="password" id="customer-password" class="form-control" placeholder="Nhập mật khẩu" minlength="6" required autocomplete="current-password"></div>
+          <label class="auth-remember"><input type="checkbox" id="remember-me" checked><span>Ghi nhớ đăng nhập trên thiết bị này</span></label>
+          <button type="submit" class="btn btn-primary auth-submit auth-submit-centered">Đăng nhập</button>
+        </form>
+        <p class="auth-switch">Chưa có tài khoản? <a href="register.html">Đăng ký</a></p><a href="index.html" class="auth-back-link">← Quay lại trang chủ</a>
+      </div>
+    </div></section>
+  </main>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = getCurrentUser(), accountView = document.getElementById('account-view'), loginView = document.getElementById('login-view');
+      if (user) { loginView.hidden = true; accountView.hidden = false; document.getElementById('account-summary').textContent = `${user.name} · ${user.email}`; document.getElementById('logout-btn').addEventListener('click', logoutCustomer); return; }
+      const form = document.getElementById('login-form'), email = document.getElementById('customer-email'), password = document.getElementById('customer-password'), alertBox = document.getElementById('login-alert'), toggle = document.getElementById('toggle-password-btn');
+      toggle.addEventListener('click', () => { const reveal = password.type === 'password'; password.type = reveal ? 'text' : 'password'; toggle.textContent = reveal ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'; });
+      form.addEventListener('submit', async event => { event.preventDefault(); alertBox.hidden = true; if (!form.checkValidity()) { alertBox.textContent = 'Vui lòng nhập email hợp lệ và mật khẩu từ 6 ký tự.'; alertBox.hidden = false; form.reportValidity(); return; } const result = await loginCustomer(email.value, password.value, document.getElementById('remember-me').checked); if (result.success) { window.location.href = 'index.html'; return; } alertBox.textContent = result.message; alertBox.hidden = false; password.focus(); });
+    });
+  </script>
+</body></html>

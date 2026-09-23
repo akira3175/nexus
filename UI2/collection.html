@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bộ sưu tập | NEXUS</title>
+  <meta name="description" content="Khám phá bộ sưu tập suit, blazer, sơ mi và quần nam Nexus.">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preload" href="assets/fonts/noto-serif-display-regular.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="stylesheet" href="boutique.css?v=font-2">
+  <script src="products.js" defer></script>
+  <script src="auth.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body class="home-page collection-page content-page">
+  <div class="announcement-bar">Giao hàng toàn quốc</div>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo-wrap" aria-label="Nexus Menswear — Trang chủ"><span class="logo-wordmark" aria-hidden="true">NEXUS</span></a>
+      <nav class="nav-desktop" aria-label="Điều hướng chính">
+        <a href="index.html" class="nav-link">Trang chủ</a>
+        <a href="collection.html" class="nav-link active">Bộ sưu tập</a>
+        <a href="about.html" class="nav-link">Về Nexus</a>
+        <a href="contact.html" class="nav-link">Liên hệ</a>
+      </nav>
+      <div class="header-actions" aria-label="Tiện ích cửa hàng">
+        <a class="header-icon-link action-btn-wrap" href="cart.html" aria-label="Mở giỏ hàng" title="Giỏ hàng"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 8.5h11l1 12h-13l1-12Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></svg><span id="header-cart-count" class="badge-count" style="display:none">0</span></a>
+      </div>
+    </div>
+  </header>
+  <main>
+    <section id="catalog" class="section" aria-label="Danh sách sản phẩm">
+      <div class="container">
+        <div class="filter-bar">
+          <div class="category-pills">
+            <button class="pill-btn active" data-category="all">Tất cả</button>
+            <button class="pill-btn" data-category="suits">Suit</button>
+            <button class="pill-btn" data-category="jackets">Blazer</button>
+            <button class="pill-btn" data-category="shirts">Sơ mi</button>
+            <button class="pill-btn" data-category="trousers">Quần</button>
+          </div>
+          <div class="collection-search">
+            <div class="collection-search-control">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg>
+              <input id="collection-search-input" type="search" aria-label="Tìm sản phẩm" placeholder="Tìm sản phẩm…" autocomplete="off">
+            </div>
+          </div>
+          <div class="sort-select-wrap"><span>Sắp xếp:</span><select id="catalog-sort" class="sort-select"><option value="featured">Nổi bật</option><option value="price-asc">Giá thấp đến cao</option><option value="price-desc">Giá cao đến thấp</option></select></div>
+        </div>
+        <noscript><p class="demo-note">Bật JavaScript để xem bộ sưu tập.</p></noscript>
+        <div id="product-grid-container" class="product-grid"></div>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer"><div class="container"><div class="footer-grid">
+    <div class="footer-col footer-intro"><h4>Nexus Menswear</h4><p>Trang phục nam được xây dựng từ phom dáng, chất liệu và khả năng phối hợp.</p><a href="about.html">Giới thiệu Nexus</a></div>
+    <div class="footer-col"><h4>Mua sắm</h4><ul class="footer-links"><li><a href="collection.html">Bộ sưu tập</a></li><li><a href="cart.html">Giỏ hàng</a></li><li><a href="checkout.html">Thanh toán</a></li></ul></div>
+    <div class="footer-col"><h4>Thông tin</h4><ul class="footer-links"><li><a href="about.html">Về Nexus</a></li><li><a href="contact.html">Liên hệ</a></li><li><a href="login.html">Tài khoản</a></li></ul></div>
+  </div><div class="footer-bottom"><span>© 2026 NEXUS Menswear.</span><span>Menswear &amp; Tailoring</span></div></div></footer>
+</body>
+</html>

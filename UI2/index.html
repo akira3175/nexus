@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NEXUS | Menswear &amp; Tailoring</title>
+  <meta name="description" content="Khám phá suit, blazer, sơ mi và quần nam với phom dáng chỉnh chu tại Nexus.">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preload" href="assets/fonts/noto-serif-display-regular.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="stylesheet" href="boutique.css?v=font-2">
+  <script src="products.js" defer></script>
+  <script src="auth.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body class="home-page">
+  <!--
+    DIRECTION: Traditional tailoring house, translated from the approved Figma reference.
+    FIRST VIEWPORT: Navy service strip, cream navigation and a direct full-width tailoring campaign.
+    VISITOR PATH: Discover the collection, shop by garment type, then understand fit and alterations.
+    SIGNATURE: A deliberately conventional editorial hero with quiet typography and no decorative UI effects.
+    CONSTRAINTS: Preserve commerce behavior, keyboard access, responsive reading order and honest product claims.
+  -->
+
+  <div class="announcement-bar">Giao hàng toàn quốc</div>
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo-wrap" aria-label="Nexus Menswear — Trang chủ">
+        <span class="logo-wordmark" aria-hidden="true">NEXUS</span>
+      </a>
+      <nav class="nav-desktop" aria-label="Điều hướng chính">
+        <a href="index.html" class="nav-link active">Trang chủ</a>
+        <a href="collection.html" class="nav-link">Bộ sưu tập</a>
+        <a href="about.html" class="nav-link">Về Nexus</a>
+        <a href="contact.html" class="nav-link">Liên hệ</a>
+      </nav>
+      <div class="header-actions" aria-label="Tiện ích cửa hàng">
+        <a class="header-icon-link action-btn-wrap" href="cart.html" aria-label="Mở giỏ hàng" title="Giỏ hàng">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 8.5h11l1 12h-13l1-12Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></svg>
+          <span id="header-cart-count" class="badge-count" style="display:none">0</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero-section" aria-labelledby="hero-title">
+      <img class="hero-backdrop" src="assets/images/menswear/hero-tailoring.png" alt="Người mẫu nam mặc suit charcoal Nexus" width="1536" height="1024" fetchpriority="high">
+      <div class="hero-shade" aria-hidden="true"></div>
+      <div class="container hero-stage">
+        <div class="hero-content">
+          <h1 id="hero-title" class="hero-title">Suit nam may đo<br><em>thủ công.</em></h1>
+          <p class="hero-desc">Tôn trọng truyền thống — hoàn thiện cho người đàn ông hiện đại.</p>
+          <div class="hero-actions">
+            <a href="collection.html" class="btn btn-primary">
+              Khám phá thêm
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+            <a href="about.html" class="btn btn-outline">
+              Tìm hiểu dịch vụ may đo
+            </a>
+          </div>
+        </div>
+        <div class="hero-meta" aria-label="Thông tin mẫu đang giới thiệu">
+          <span>Nexus Tailoring</span>
+          <span>Suit · Shirt · Separates</span>
+          <a href="collection.html">Xem bộ sưu tập <span aria-hidden="true">→</span></a>
+        </div>
+        <a class="hero-scroll" href="collection.html">Khám phá bộ sưu tập <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+
+    <!-- Trust Pillars -->
+    
+
+    <!-- Catalog Section -->
+    <section id="catalog" class="section">
+      <div class="container">
+        <div class="section-header home-collection-header">
+          <h2 class="section-title">Bộ sưu tập</h2>
+          <a class="collection-more-link" href="collection.html">Xem thêm <span aria-hidden="true">→</span></a>
+        </div>
+
+        <!-- Dynamic Product Grid -->
+        <noscript><p class="demo-note">Bật JavaScript để xem bộ sưu tập.</p></noscript>
+        <div id="product-grid-container" class="product-grid">
+          <!-- Populated by app.js initCatalogPage() -->
+        </div>
+      </div>
+    </section>
+
+    <!-- About Nexus -->
+    <section id="craftsmanship" class="about-section">
+      <div class="container about-grid">
+        <figure class="about-visual">
+          <img src="assets/images/menswear/tailor-at-work.png" alt="Người thợ may đang cắt vải suit tại bàn làm việc" loading="lazy" width="1536" height="1024">
+          <figcaption><strong>NEXUS</strong><span>Menswear &amp; Tailoring</span></figcaption>
+        </figure>
+        <div class="about-copy">
+          <h2>Giới thiệu Nexus</h2>
+          <p>Nexus tập trung vào những món đồ nam có tỷ lệ rõ ràng, chất liệu phù hợp và khả năng sử dụng lâu dài. Mỗi thiết kế bắt đầu từ cách trang phục nằm trên cơ thể, thay vì những chi tiết trang trí không cần thiết.</p>
+          <p>Bộ sưu tập hiện tại gồm suit, blazer, sơ mi và quần — những thành phần nền tảng có thể mặc riêng hoặc phối thành một tủ đồ thống nhất.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    
+
+    <!-- VIP Club -->
+    
+  </main>
+
+  <!-- Footer -->
+  <footer id="showrooms" class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col footer-intro"><h4>Nexus Menswear</h4><p>Trang phục nam được xây dựng từ phom dáng, chất liệu và khả năng phối hợp.</p><a href="about.html">Giới thiệu Nexus</a></div>
+      <div class="footer-col"><h4>Mua sắm</h4><ul class="footer-links"><li><a href="collection.html">Bộ sưu tập</a></li><li><a href="cart.html">Giỏ hàng</a></li><li><a href="checkout.html">Thanh toán</a></li></ul></div>
+      <div class="footer-col"><h4>Thông tin</h4><ul class="footer-links"><li><a href="product.html?id=navy-suit">Thông tin sản phẩm</a></li><li><a href="about.html">Phom &amp; chất liệu</a></li><li><a href="contact.html">Liên hệ</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 NEXUS Menswear.</span><span>Menswear &amp; Tailoring</span></div>
+  </div>
+</footer>
+
+  <!-- Quick View Modal -->
+  <div id="quickview-modal" class="modal-overlay">
+    <div class="modal-card">
+      <button class="modal-close-btn" onclick="closeQuickView()">✕</button>
+      <div id="quickview-modal-body">
+        <!-- Populated dynamically by openQuickView() -->
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

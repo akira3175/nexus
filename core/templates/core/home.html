@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body_class %}home-page{% endblock %}
+
+{% block content %}
+    <!-- Hero Section -->
+    <section class="hero-section" aria-labelledby="hero-title">
+      <img class="hero-backdrop" src="{% static "assets/images/menswear/hero-tailoring.png" %}" alt="Người mẫu nam mặc suit charcoal Nexus" width="1536" height="1024" fetchpriority="high">
+      <div class="hero-shade" aria-hidden="true"></div>
+      <div class="container hero-stage">
+        <div class="hero-content">
+          <h1 id="hero-title" class="hero-title">Suit nam may đo<br><em>thủ công.</em></h1>
+          <p class="hero-desc">Tôn trọng truyền thống — hoàn thiện cho người đàn ông hiện đại.</p>
+          <div class="hero-actions">
+            <a href="collection.html" class="btn btn-primary">
+              Khám phá thêm
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+            <a href="about.html" class="btn btn-outline">
+              Tìm hiểu dịch vụ may đo
+            </a>
+          </div>
+        </div>
+        <div class="hero-meta" aria-label="Thông tin mẫu đang giới thiệu">
+          <span>Nexus Tailoring</span>
+          <span>Suit · Shirt · Separates</span>
+          <a href="collection.html">Xem bộ sưu tập <span aria-hidden="true">→</span></a>
+        </div>
+        <a class="hero-scroll" href="collection.html">Khám phá bộ sưu tập <span aria-hidden="true">→</span></a>
+      </div>
+    </section>
+
+    <!-- About Nexus -->
+    <section id="craftsmanship" class="about-section">
+      <div class="container about-grid">
+        <figure class="about-visual">
+          <img src="{% static 'assets/images/menswear/tailor-at-work.png' %}" alt="Người thợ may đang cắt vải suit tại bàn làm việc" loading="lazy" width="1536" height="1024">
+          <figcaption><strong>NEXUS</strong><span>Menswear &amp; Tailoring</span></figcaption>
+        </figure>
+        <div class="about-copy">
+          <h2>Giới thiệu Nexus</h2>
+          <p>Nexus tập trung vào những món đồ nam có tỷ lệ rõ ràng, chất liệu phù hợp và khả năng sử dụng lâu dài. Mỗi thiết kế bắt đầu từ cách trang phục nằm trên cơ thể, thay vì những chi tiết trang trí không cần thiết.</p>
+          <p>Bộ sưu tập hiện tại gồm suit, blazer, sơ mi và quần — những thành phần nền tảng có thể mặc riêng hoặc phối thành một tủ đồ thống nhất.</p>
+        </div>
+      </div>
+    </section>
+{% endblock %}

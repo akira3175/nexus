@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hóa Đơn | NEXUS Menswear</title>
+  <meta name="description" content="Hóa đơn điện tử kiêm chứng nhận sở hữu và bảo hành chính hãng Nexus 5 năm toàn cầu.">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preload" href="assets/fonts/noto-serif-display-regular.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="stylesheet" href="boutique.css?v=font-2">
+  <script src="auth.js" defer></script>
+  <script src="invoice.js" defer></script>
+</head>
+<body class="menswear-page">
+
+  <div class="announcement-bar no-print">Giao hàng toàn quốc</div>
+  <!-- Header (Hidden on print) -->
+  <header class="site-header no-print">
+    <div class="container header-inner">
+      <a href="index.html" class="logo-wrap" aria-label="Nexus Menswear — Trang chủ">
+        <span class="logo-wordmark" aria-hidden="true">NEXUS</span>
+      </a>
+      <nav class="nav-desktop" aria-label="Điều hướng chính">
+        <a href="index.html" class="nav-link">Trang chủ</a>
+        <a href="collection.html" class="nav-link">Bộ sưu tập</a>
+        <a href="about.html" class="nav-link">Về Nexus</a>
+        <a href="contact.html" class="nav-link">Liên hệ</a>
+      </nav>
+      <div class="header-actions" aria-label="Tiện ích cửa hàng">
+        <a class="header-icon-link action-btn-wrap" href="cart.html" aria-label="Mở giỏ hàng" title="Giỏ hàng"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 8.5h11l1 12h-13l1-12Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></svg><span id="header-cart-count" class="badge-count" style="display:none">0</span></a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <div class="invoice-container">
+      <!-- Top Certificate Header -->
+      <div class="invoice-header">
+        <div>
+          <div class="logo-text" style="font-size: 26px;">
+            <span>NEXUS</span>
+            <span class="logo-sub">Menswear • Vietnam</span>
+          </div>
+          <div class="certificate-badge">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            Chứng Nhận Sở Hữu &amp; Bảo Hành Chính Hãng
+          </div>
+        </div>
+
+        <div style="text-align: right;">
+          <div style="font-size: 13px; color: var(--text-muted);">Mã đơn hàng:</div>
+          <div id="inv-order-id" style="font-family: var(--font-serif); font-size: 20px; font-weight: 700; color: var(--gold-400);">NX-000000</div>
+          <div id="inv-date" style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;">--/--/----</div>
+        </div>
+      </div>
+
+      <!-- Customer & Delivery Details Grid -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 36px; font-size: 13px;">
+        <div style="background: rgba(255,255,255,0.02); padding: 20px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle);">
+          <h4 style="color: var(--gold-400); font-family: var(--font-serif); font-size: 14px; margin-bottom: 12px; text-transform: uppercase;">Chủ Sở Hữu / Người Mua:</h4>
+          <div style="margin-bottom: 6px;"><strong id="inv-customer-name" style="font-size: 15px; color: var(--text-primary);">Nguyễn Văn A</strong></div>
+          <div style="color: var(--text-secondary); margin-bottom: 4px;">Điện thoại: <span id="inv-customer-phone">0900000000</span></div>
+          <div style="color: var(--text-secondary);">Địa chỉ nhận: <span id="inv-customer-address">--</span></div>
+        </div>
+
+        <div style="background: rgba(255,255,255,0.02); padding: 20px; border-radius: var(--radius-sm); border: 1px solid var(--border-subtle);">
+          <h4 style="color: var(--gold-400); font-family: var(--font-serif); font-size: 14px; margin-bottom: 12px; text-transform: uppercase;">Vận Chuyển &amp; Thanh Toán:</h4>
+          <div style="margin-bottom: 6px; color: var(--text-secondary);">Phương thức: <span id="inv-payment-method" style="color: var(--text-primary); font-weight: 500;">--</span></div>
+          <div style="margin-bottom: 6px; color: var(--text-secondary);">Vận chuyển: <span id="inv-shipping-method" style="color: var(--accent-emerald);">--</span></div>
+          <div style="color: var(--text-secondary);">Ghi chú: <span id="inv-customer-note" style="color: var(--text-primary);">--</span></div>
+        </div>
+      </div>
+
+      <!-- Items Table -->
+      <table class="cart-table" style="margin-bottom: 30px;">
+        <thead>
+          <tr>
+            <th style="width: 40px;">STT</th>
+            <th>Mẫu Đồng Hồ Độc Bản</th>
+            <th style="text-align: center; width: 100px;">Số Lượng</th>
+            <th style="text-align: right; width: 140px;">Đơn Giá</th>
+            <th style="text-align: right; width: 160px;">Thành Tiền</th>
+          </tr>
+        </thead>
+        <tbody id="inv-items-body">
+          <!-- Populated by invoice.js -->
+        </tbody>
+      </table>
+
+      <!-- Total Calculation -->
+      <div style="max-width: 360px; margin-left: auto; margin-bottom: 36px; font-size: 14px;">
+        <div class="summary-row">
+          <span>Tạm tính giá trị:</span>
+          <span id="inv-subtotal">0 ₫</span>
+        </div>
+        <div class="summary-row">
+          <span>Chiết khấu đặc quyền VIP:</span>
+          <span id="inv-discount" style="color: var(--accent-emerald);">- 0 ₫</span>
+        </div>
+        <div class="summary-row">
+          <span>Phí vận chuyển mẫu:</span>
+          <span style="color: var(--accent-emerald);">0 ₫ (Miễn phí)</span>
+        </div>
+        <div class="summary-row total" style="border-top: 1px solid var(--gold-border);">
+          <span style="font-size: 16px;">Tổng Giá Trị Thanh Toán:</span>
+          <span id="inv-total" style="color: var(--gold-400); font-size: 22px; font-family: var(--font-serif);">0 ₫</span>
+        </div>
+      </div>
+
+      <!-- Warranty QR & Authentication Footer -->
+      <div style="display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--border-subtle); padding-top: 24px; flex-wrap: wrap; gap: 20px;">
+        <div>
+          <div style="font-size: 12px; color: var(--gold-400); font-weight: 600; text-transform: uppercase;">Mã tham chiếu minh họa:</div>
+          <div id="inv-warranty-code" style="font-family: monospace; font-size: 15px; color: var(--text-primary); letter-spacing: 1px; margin-top: 4px;">NEXUS-WTY-0000-0000</div>
+          <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Tra cứu lịch sử bảo dưỡng và linh kiện tại bất kỳ Boutique Nexus trên thế giới.</div>
+        </div>
+
+        <div style="text-align: right; font-size: 12px; color: var(--text-muted);">
+          <div>Bộ phận chăm sóc khách hàng</div>
+          <div style="font-family: var(--font-serif); font-size: 18px; color: var(--gold-400); margin-top: 8px; font-style: italic;">Nexus Master Watchmaker</div>
+        </div>
+      </div>
+
+      <!-- Action Buttons (Hidden on print) -->
+      <div class="no-print" style="display: flex; gap: 16px; margin-top: 40px; justify-content: flex-end;">
+        <a href="index.html" class="btn btn-outline">Tiếp Tục Xem Đồng Hồ</a>
+        <button id="print-invoice-btn" class="btn btn-primary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+          In Hóa Đơn / Lưu Bản PDF
+        </button>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer (Hidden on print) -->
+  <footer id="showrooms" class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand"><h3>NEXUS</h3><p>Menswear chỉnh chu cho những ngày thường và những dịp quan trọng.</p></div>
+      <div class="footer-col"><h4>Khám phá</h4><ul class="footer-links"><li><a href="collection.html">Bộ sưu tập</a></li><li><a href="about.html">Về Nexus</a></li><li><a href="contact.html">Liên hệ</a></li></ul></div>
+      <div class="footer-col"><h4>Mua sắm</h4><ul class="footer-links"><li><a href="cart.html">Giỏ hàng</a></li><li><a href="checkout.html">Thanh toán mẫu</a></li><li><a href="invoice.html">Hóa đơn mẫu</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 NEXUS Menswear.</span><span>Trang phục nam và dịch vụ chỉnh sửa phom.</span></div>
+  </div>
+</footer>
+
+</body>
+</html>

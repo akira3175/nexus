@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Liên hệ | NEXUS</title>
+  <meta name="description" content="Liên hệ Nexus để được tư vấn trang phục và may đo.">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preload" href="assets/fonts/noto-serif-display-regular.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="stylesheet" href="boutique.css?v=font-2">
+  <script src="auth.js" defer></script>
+</head>
+<body class="menswear-page contact-page content-page">
+  <div class="announcement-bar">Giao hàng toàn quốc</div>
+  <header class="site-header"><div class="container header-inner">
+    <a href="index.html" class="logo-wrap" aria-label="Nexus Menswear — Trang chủ"><span class="logo-wordmark" aria-hidden="true">NEXUS</span></a>
+    <nav class="nav-desktop" aria-label="Điều hướng chính"><a href="index.html" class="nav-link">Trang chủ</a><a href="collection.html" class="nav-link">Bộ sưu tập</a><a href="about.html" class="nav-link">Về Nexus</a><a href="contact.html" class="nav-link active" aria-current="page">Liên hệ</a></nav>
+    <div class="header-actions" aria-label="Tiện ích cửa hàng">
+      <a class="header-icon-link action-btn-wrap" href="cart.html" aria-label="Mở giỏ hàng" title="Giỏ hàng"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 8.5h11l1 12h-13l1-12Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></svg><span id="header-cart-count" class="badge-count" style="display:none">0</span></a>
+    </div>
+  </div></header>
+  <main class="contact-main container">
+    <section class="contact-panel" aria-labelledby="contact-title">
+      <h1 id="contact-title">Liên hệ</h1>
+      <form class="contact-form" id="contact-form">
+        <div class="contact-field contact-name"><label for="contact-name">Họ và tên</label><input class="form-control" id="contact-name" name="name" autocomplete="name" placeholder="Họ và tên" required></div>
+        <div class="contact-field contact-phone"><label for="contact-phone">Số điện thoại</label><input class="form-control" id="contact-phone" name="phone" type="tel" autocomplete="tel" placeholder="Số điện thoại" required></div>
+        <div class="contact-field contact-location"><label for="contact-location">Khu vực</label><input class="form-control" id="contact-location" name="location" autocomplete="address-level1" placeholder="Tỉnh / thành phố"></div>
+        <div class="contact-field contact-message"><label for="contact-message">Nội dung</label><textarea class="form-control" id="contact-message" name="message" placeholder="Bạn cần Nexus tư vấn điều gì?" required></textarea></div>
+        <button class="btn btn-primary contact-submit" type="submit">Gửi liên hệ</button>
+        <p class="contact-status" role="status" hidden>Cảm ơn bạn. Nexus đã ghi nhận thông tin liên hệ.</p>
+      </form>
+    </section>
+    <figure class="contact-visual"><img src="assets/images/menswear/tailor-at-work.png" alt="Người thợ Nexus cắt vải trên bàn may"></figure>
+  </main>
+  <footer class="site-footer"><div class="container"><div class="footer-grid"><div class="footer-col footer-intro"><h4>Nexus Menswear</h4><p>Trang phục nam được xây dựng từ phom dáng, chất liệu và khả năng phối hợp.</p><a href="about.html">Giới thiệu Nexus</a></div><div class="footer-col"><h4>Mua sắm</h4><ul class="footer-links"><li><a href="collection.html">Bộ sưu tập</a></li><li><a href="cart.html">Giỏ hàng</a></li><li><a href="checkout.html">Thanh toán</a></li></ul></div><div class="footer-col"><h4>Thông tin</h4><ul class="footer-links"><li><a href="about.html">Về Nexus</a></li><li><a href="contact.html">Liên hệ</a></li><li><a href="login.html">Tài khoản</a></li></ul></div></div><div class="footer-bottom"><span>© 2026 NEXUS Menswear.</span><span>Menswear &amp; Tailoring</span></div></div></footer>
+  <script>document.getElementById('contact-form').addEventListener('submit', function (event) { event.preventDefault(); this.querySelector('.contact-status').hidden = false; });</script>
+</body>
+</html>

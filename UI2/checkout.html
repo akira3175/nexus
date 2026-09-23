@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Thanh Toán | NEXUS Menswear</title>
+  <meta name="description" content="Thanh toán đơn hàng trang phục Nexus.">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preload" href="assets/fonts/noto-serif-display-regular.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="stylesheet" href="boutique.css?v=font-2">
+  <script src="products.js" defer></script>
+  <script src="auth.js" defer></script>
+  <script src="checkout.js" defer></script>
+</head>
+<body class="menswear-page">
+
+  <div class="announcement-bar">Giao hàng toàn quốc</div>
+  <!-- Header -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo-wrap" aria-label="Nexus Menswear — Trang chủ">
+        <span class="logo-wordmark" aria-hidden="true">NEXUS</span>
+      </a>
+      <nav class="nav-desktop" aria-label="Điều hướng chính">
+        <a href="index.html" class="nav-link">Trang chủ</a>
+        <a href="collection.html" class="nav-link">Bộ sưu tập</a>
+        <a href="about.html" class="nav-link">Về Nexus</a>
+        <a href="contact.html" class="nav-link">Liên hệ</a>
+      </nav>
+      <div class="header-actions" aria-label="Tiện ích cửa hàng">
+        <a class="header-icon-link action-btn-wrap is-active" href="cart.html" aria-label="Mở giỏ hàng" title="Giỏ hàng"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 8.5h11l1 12h-13l1-12Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></svg><span id="header-cart-count" class="badge-count" style="display:none">0</span></a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container section">
+
+    <div class="section-header" style="text-align: left; margin-bottom: 30px;">
+      <span class="section-tag">Đặt Hàng Trực Tuyến</span>
+      <h1 class="section-title">Thông Tin Giao Nhận &amp; Thanh Toán</h1>
+    </div>
+
+    <!-- Empty View if no item in cart -->
+    <div id="checkout-empty-view" style="display: none; text-align: center; padding: 60px 20px; background: var(--bg-card); border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+      <h2 style="font-family: var(--font-serif); margin-bottom: 12px;">Chưa có sản phẩm cần thanh toán</h2>
+      <p style="color: var(--text-muted); margin-bottom: 20px;">Vui lòng thêm sản phẩm vào giỏ hàng trước khi thanh toán.</p>
+      <a href="collection.html" class="btn btn-primary">Khám Phá Bộ Sưu Tập</a>
+    </div>
+
+    <!-- Content View -->
+    <form id="checkout-form">
+      <div id="checkout-content-view" class="checkout-grid">
+        <!-- Left: Forms -->
+        <div>
+          <!-- Customer Information -->
+          <div style="background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 28px; margin-bottom: 24px;">
+            <h3 style="font-family: var(--font-serif); font-size: 18px; color: var(--gold-400); margin-bottom: 20px;">1. Thông Tin Người Nhận Đồng Hồ</h3>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+              <div class="form-group">
+                <label for="customer-name">Họ và tên quý khách *</label>
+                <input type="text" id="customer-name" class="form-control" placeholder="Ví dụ: Nguyễn Văn An" required>
+              </div>
+              <div class="form-group">
+                <label for="customer-phone">Số điện thoại liên hệ *</label>
+                <input type="tel" id="customer-phone" class="form-control" placeholder="Ví dụ: 0912345678" required>
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+              <div class="form-group">
+                <label for="customer-email">Địa chỉ Email (Nhận bảo hành điện tử) *</label>
+                <input type="email" id="customer-email" class="form-control" placeholder="email@domain.vn" required>
+              </div>
+              <div class="form-group">
+                <label for="customer-city">Tỉnh / Thành phố *</label>
+                <input type="text" id="customer-city" class="form-control" placeholder="Hà Nội, TP.HCM, Đà Nẵng..." required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="customer-address">Địa chỉ chi tiết nhận hàng *</label>
+              <input type="text" id="customer-address" class="form-control" placeholder="Số nhà, tên đường, khu căn hộ cao cấp..." required>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 0;">
+              <label for="customer-note">Ghi chú đặc biệt cho chuyên viên giao nhận</label>
+              <textarea id="customer-note" class="form-control" rows="2" placeholder="Ví dụ: Giao giờ hành chính, gọi trước 30 phút, mang theo máy đo size cổ tay..."></textarea>
+            </div>
+          </div>
+
+          <!-- Shipping Method -->
+          <div style="background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 28px; margin-bottom: 24px;">
+            <h3 style="font-family: var(--font-serif); font-size: 18px; color: var(--gold-400); margin-bottom: 20px;">2. Phương Thức Vận Chuyển Chuyên Biệt</h3>
+
+            <label class="radio-card active">
+              <input type="radio" name="shippingMethod" value="express" checked>
+              <div class="radio-content" style="flex: 1;">
+                <div style="font-weight: 600; color: var(--text-primary);">Giao nhanh (phương án mẫu)</div>
+                <div style="font-size: 12px; color: var(--text-muted);">Tùy chọn giao nhanh để trải nghiệm cách tính phí vận chuyển.</div>
+              </div>
+              <span style="color: var(--accent-emerald); font-weight: 600; font-size: 13px;">MIỄN PHÍ</span>
+            </label>
+
+            <label class="radio-card">
+              <input type="radio" name="shippingMethod" value="standard">
+              <div class="radio-content" style="flex: 1;">
+                <div style="font-weight: 600; color: var(--text-primary);">Chuyển Phát An Ninh Liên Tỉnh (24h - 48h)</div>
+                <div style="font-size: 12px; color: var(--text-muted);">Đóng gói niêm phong chống sốc 3 lớp, bảo hiểm giá trị toàn phần 100%.</div>
+              </div>
+              <span style="color: var(--accent-emerald); font-weight: 600; font-size: 13px;">MIỄN PHÍ</span>
+            </label>
+          </div>
+
+          <!-- Payment Method -->
+          <div style="background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 28px;">
+            <h3 style="font-family: var(--font-serif); font-size: 18px; color: var(--gold-400); margin-bottom: 20px;">3. Phương Thức Thanh Toán</h3>
+
+            <label class="radio-card payment-card active">
+              <input type="radio" name="paymentMethod" value="cod" checked>
+              <div class="radio-content" style="flex: 1;">
+                <div style="font-weight: 600; color: var(--text-primary);">Thanh toán khi nhận hàng (COD)</div>
+                <div style="font-size: 12px; color: var(--text-muted);">Quý khách được mở hộp, lên tay kiểm tra và đối chiếu số seri trước khi thanh toán.</div>
+              </div>
+            </label>
+
+            <label class="radio-card payment-card">
+              <input type="radio" name="paymentMethod" value="bank_transfer">
+              <div class="radio-content" style="flex: 1;">
+                <div style="font-weight: 600; color: var(--text-primary);">Chuyển khoản nhanh qua VietQR (Tự động xác nhận)</div>
+                <div style="font-size: 12px; color: var(--text-muted);">Quét mã QR qua ứng dụng ngân hàng bất kỳ, không lo sai số tài khoản hay số tiền.</div>
+              </div>
+            </label>
+
+            <!-- VietQR Preview (Toggled when bank_transfer is active) -->
+            <div id="vietqr-preview-box" class="qr-preview-box">
+              <h4 style="font-size: 15px; margin-bottom: 6px;">Mã Thanh Toán VietQR Tức Thì</h4>
+              <p style="font-size: 12px; color: #555; margin-bottom: 12px;">Mở ứng dụng ngân hàng và quét mã để thanh toán đúng số tiền:</p>
+              <img id="vietqr-code-img" src="" alt="Mã VietQR thanh toán đơn hàng Nexus">
+              <div style="font-size: 14px; font-weight: 700; color: #d49c3d;" id="vietqr-amount">0 ₫</div>
+              <div style="font-size: 11px; color: #666; margin-top: 6px;">Ngân hàng: MB Bank • STK: 0987654321 • Chủ TK: NEXUS MENSWEAR</div>
+            </div>
+
+            <label class="radio-card payment-card" style="margin-top: 12px;">
+              <input type="radio" name="paymentMethod" value="installment">
+              <div class="radio-content" style="flex: 1;">
+                <div style="font-weight: 600; color: var(--text-primary);">Trả góp 0% lãi suất qua thẻ tín dụng</div>
+                <div style="font-size: 12px; color: var(--text-muted);">Hỗ trợ kỳ hạn 3, 6, 9, 12 tháng liên kết hơn 25 ngân hàng uy tín hàng đầu.</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Right: Order Summary -->
+        <div>
+          <div class="summary-card" style="position: sticky; top: 100px;">
+            <h3 style="font-family: var(--font-serif); font-size: 18px; color: var(--gold-400); margin-bottom: 20px;">Đơn Hàng Của Quý Khách</h3>
+
+            <div id="checkout-items-list" style="margin-bottom: 20px;">
+              <!-- Populated by checkout.js -->
+            </div>
+
+            <div class="summary-row">
+              <span>Tạm tính:</span>
+              <span id="checkout-subtotal">0 ₫</span>
+            </div>
+
+            <div class="summary-row">
+              <span>Giảm giá VIP:</span>
+              <span id="checkout-discount" style="color: var(--accent-emerald);">- 0 ₫</span>
+            </div>
+
+            <div class="summary-row">
+              <span>Phí vận chuyển &amp; Bảo hiểm:</span>
+              <span style="color: var(--accent-emerald);">0 ₫ (Miễn phí)</span>
+            </div>
+
+            <div class="summary-row total">
+              <span>Tổng thanh toán:</span>
+              <span id="checkout-total" style="color: var(--gold-400); font-size: 24px; font-family: var(--font-serif);">0 ₫</span>
+            </div>
+
+            <button type="submit" id="submit-order-btn" class="btn btn-primary" style="width: 100%; margin-top: 24px;">
+              Hoàn Tất Đặt Hàng &amp; Xuất Hóa Đơn
+            </button>
+
+            <div style="margin-top: 20px; font-size: 12px; color: var(--text-muted); line-height: 1.6; text-align: center;">
+              Bằng việc bấm xác nhận, bạn đồng ý với chính sách đổi trả và cam kết bảo mật dữ liệu của Nexus.
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </main>
+
+  <!-- Footer -->
+  <footer id="showrooms" class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand"><h3>NEXUS</h3><p>Menswear chỉnh chu cho những ngày thường và những dịp quan trọng.</p></div>
+      <div class="footer-col"><h4>Khám phá</h4><ul class="footer-links"><li><a href="collection.html">Bộ sưu tập</a></li><li><a href="about.html">Về Nexus</a></li><li><a href="contact.html">Liên hệ</a></li></ul></div>
+      <div class="footer-col"><h4>Mua sắm</h4><ul class="footer-links"><li><a href="cart.html">Giỏ hàng</a></li><li><a href="checkout.html">Thanh toán mẫu</a></li><li><a href="invoice.html">Hóa đơn mẫu</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 NEXUS Menswear.</span><span>Trang phục nam và dịch vụ chỉnh sửa phom.</span></div>
+  </div>
+</footer>
+
+</body>
+</html>
