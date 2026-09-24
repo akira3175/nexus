@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load product_tags %}
+
+{% block title %}{{ product.name }} | Nexus{% endblock %}
+{% block body_class %}menswear-page{% endblock %}
+
+{% block content %}
+  <section class="container product-detail-section">
+    <h1>{{ product.name }}</h1>
+    <p>{{ product.price|vnd }}</p>
+  </section>
+{% endblock %}
