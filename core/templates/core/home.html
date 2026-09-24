@@ -13,11 +13,11 @@
           <h1 id="hero-title" class="hero-title">Suit nam may đo<br><em>thủ công.</em></h1>
           <p class="hero-desc">Tôn trọng truyền thống — hoàn thiện cho người đàn ông hiện đại.</p>
           <div class="hero-actions">
-            <a href="collection.html" class="btn btn-primary">
+            <a href="{% url 'products:list' %}" class="btn btn-primary">
               Khám phá thêm
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </a>
-            <a href="about.html" class="btn btn-outline">
+            <a href="#craftsmanship" class="btn btn-outline">
               Tìm hiểu dịch vụ may đo
             </a>
           </div>
@@ -25,9 +25,9 @@
         <div class="hero-meta" aria-label="Thông tin mẫu đang giới thiệu">
           <span>Nexus Tailoring</span>
           <span>Suit · Shirt · Separates</span>
-          <a href="collection.html">Xem bộ sưu tập <span aria-hidden="true">→</span></a>
+          <a href="{% url 'products:list' %}">Xem bộ sưu tập <span aria-hidden="true">→</span></a>
         </div>
-        <a class="hero-scroll" href="collection.html">Khám phá bộ sưu tập <span aria-hidden="true">→</span></a>
+        <a class="hero-scroll" href="{% url 'products:list' %}">Khám phá bộ sưu tập <span aria-hidden="true">→</span></a>
       </div>
     </section>
 

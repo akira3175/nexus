@@ -441,6 +441,23 @@ body.has-dialog { overflow: hidden; }
     display: none;
   }
 }
+
+/* Shared disabled navigation and Django message states. */
+.nav-link-disabled,
+.header-action-disabled,
+.footer-links span[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: .55;
+}
+.site-messages {
+  padding-top: 16px;
+}
+.site-message {
+  padding: 12px 16px;
+  border: 1px solid rgba(32, 38, 58, .25);
+  background: #f6f0e2;
+  color: #20263a;
+}
 @media (max-width: 480px) {
   .auth-intro { padding: 26px 20px; }
   .auth-security-note { display: none; }
