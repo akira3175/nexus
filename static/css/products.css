@@ -27,3 +27,82 @@
   color: #55534e;
   text-align: center;
 }
+
+.product-selection {
+  display: grid;
+  gap: 16px;
+}
+
+.variant-field {
+  display: grid;
+  gap: 8px;
+}
+
+.variant-field label {
+  color: #55534e;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.variant-field select {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 14px;
+  border: 1px solid rgba(32, 38, 58, .28);
+  border-radius: 0;
+  background: #f6f0e2;
+  color: #20263a;
+  font: inherit;
+}
+
+.variant-field select:focus-visible,
+.detail-stepper button:focus-visible,
+.detail-stepper input:focus-visible,
+.tab-btn:focus-visible {
+  outline: 2px solid #394768;
+  outline-offset: 3px;
+}
+
+.variant-status,
+.integration-note {
+  margin: 0;
+  color: #6d6a63;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.detail-stepper input {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: #20263a;
+  font: inherit;
+  font-weight: 600;
+  text-align: center;
+  appearance: textfield;
+}
+
+.detail-stepper input::-webkit-inner-spin-button,
+.detail-stepper input::-webkit-outer-spin-button {
+  margin: 0;
+  appearance: none;
+}
+
+.detail-stepper button:disabled,
+.detail-purchase .btn:disabled {
+  cursor: not-allowed;
+  opacity: .5;
+}
+
+.related-products {
+  margin-top: 80px;
+  padding-top: 50px;
+  border-top: 1px solid rgba(32, 38, 58, .2);
+}
+
+.related-products > .section-title {
+  margin-bottom: 36px;
+  color: #20263a;
+  font-size: clamp(32px, 3vw, 40px);
+  text-align: center;
+}

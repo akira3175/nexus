@@ -1,12 +1,116 @@
 {% extends "base.html" %}
+{% load static %}
 {% load product_tags %}
 
 {% block title %}{{ product.name }} | Nexus{% endblock %}
 {% block body_class %}menswear-page{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/products.css' %}">{% endblock %}
 
 {% block content %}
-  <section class="container product-detail-section">
-    <h1>{{ product.name }}</h1>
-    <p>{{ product.price|vnd }}</p>
+  <section class="container product-detail-section" id="product-detail-view">
+    <nav class="breadcrumbs" aria-label="Breadcrumb">
+      <a href="{% url 'core:home' %}">Trang chủ</a>
+      <span aria-hidden="true">/</span>
+      <a href="{% url 'products:list' %}">Bộ sưu tập</a>
+      <span aria-hidden="true">/</span>
+      <span id="detail-breadcrumb-name" aria-current="page">{{ product.name }}</span>
+    </nav>
+
+    <div class="detail-grid">
+      <div class="detail-gallery">
+        <div class="gallery-main">
+          {% if product.image %}
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" width="1024" height="1024">
+          {% else %}
+            <span class="product-image-placeholder" aria-hidden="true">NEXUS</span>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="detail-info">
+        <span class="detail-category">{{ product.category.name }}</span>
+        <h1 class="detail-title">{{ product.name }}</h1>
+        <span class="detail-price">{{ product.price|vnd }}</span>
+        <p class="detail-description">{{ product.description }}</p>
+
+        <form id="product-selection-form" class="product-selection" novalidate>
+          <div class="variant-field">
+            <label for="variant-select">Size và màu</label>
+            <select id="variant-select" name="variant_id" required>
+              <option value="">Chọn một biến thể</option>
+              {% for variant in variants %}
+                <option value="{{ variant.id }}" data-stock="{{ variant.stock }}"{% if variant.stock == 0 %} disabled{% endif %}>
+                  {{ variant.size }} · {{ variant.color }} — {% if variant.stock > 0 %}Còn {{ variant.stock }}{% else %}Hết hàng{% endif %}
+                </option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <p id="variant-status" class="variant-status" aria-live="polite">
+            {% if variants %}Vui lòng chọn size và màu.{% else %}Sản phẩm hiện chưa có biến thể khả dụng.{% endif %}
+          </p>
+
+          <div class="detail-purchase">
+            <div class="drawer-stepper detail-stepper" aria-label="Số lượng">
+              <button id="detail-qty-minus" type="button" aria-label="Giảm số lượng" disabled>−</button>
+              <input id="detail-quantity" name="quantity" type="number" value="1" min="1" max="1" inputmode="numeric" aria-label="Số lượng" disabled>
+              <button id="detail-qty-plus" type="button" aria-label="Tăng số lượng" disabled>+</button>
+            </div>
+            <button class="btn btn-outline" type="button" disabled aria-describedby="cart-unavailable">Thêm vào giỏ</button>
+          </div>
+          <p id="cart-unavailable" class="integration-note">Giỏ hàng sẽ được kết nối khi module cart được tích hợp.</p>
+        </form>
+      </div>
+    </div>
+
+    <div class="tabs-header" role="tablist" aria-label="Thông tin sản phẩm">
+      <button id="tab-specs-button" class="tab-btn active" type="button" role="tab" aria-selected="true" aria-controls="tab-specs">Thông số</button>
+      <button id="tab-story-button" class="tab-btn" type="button" role="tab" aria-selected="false" aria-controls="tab-story">Phom &amp; chất liệu</button>
+      <button id="tab-care-button" class="tab-btn" type="button" role="tab" aria-selected="false" aria-controls="tab-care">Chăm sóc</button>
+    </div>
+
+    <div id="tab-specs" class="tab-pane active" role="tabpanel" aria-labelledby="tab-specs-button">
+      <table class="specs-table">
+        <tbody>
+          <tr><td>Danh mục</td><td>{{ product.category.name }}</td></tr>
+          <tr><td>Chất liệu</td><td>{{ product.material }}</td></tr>
+          <tr><td>Phom dáng</td><td>{{ product.fit }}</td></tr>
+          {% if variants %}<tr><td>Màu sắc</td><td>{{ variants.0.color }}</td></tr>{% endif %}
+        </tbody>
+      </table>
+    </div>
+    <div id="tab-story" class="tab-pane" role="tabpanel" aria-labelledby="tab-story-button" hidden>
+      <p>{{ product.description }}</p>
+    </div>
+    <div id="tab-care" class="tab-pane" role="tabpanel" aria-labelledby="tab-care-button" hidden>
+      <p>{{ product.care_instructions }}</p>
+    </div>
+
+    {% if related_products %}
+      <section class="related-products" aria-labelledby="related-products-title">
+        <h2 id="related-products-title" class="section-title">Có thể bạn cũng thích</h2>
+        <div id="related-products-grid" class="product-grid">
+          {% for related in related_products %}
+            <article class="product-card">
+              <div class="card-media">
+                <a class="card-image-link" href="{{ related.get_absolute_url }}" aria-label="Xem {{ related.name }}">
+                  {% if related.image %}
+                    <img src="{{ related.image.url }}" alt="{{ related.name }}" loading="lazy" width="1024" height="1024">
+                  {% else %}
+                    <span class="product-image-placeholder" aria-hidden="true">NEXUS</span>
+                  {% endif %}
+                </a>
+              </div>
+              <div class="card-body">
+                <h3 class="card-title"><a href="{{ related.get_absolute_url }}">{{ related.name }}</a></h3>
+                <span class="current-price">{{ related.price|vnd }}</span>
+              </div>
+            </article>
+          {% endfor %}
+        </div>
+      </section>
+    {% endif %}
   </section>
 {% endblock %}
+
+{% block extra_js %}<script src="{% static 'js/product-detail.js' %}" defer></script>{% endblock %}

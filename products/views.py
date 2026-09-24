@@ -1,7 +1,7 @@
-from django.db.models import Q
+from django.db.models import Prefetch, Q
 from django.shortcuts import get_object_or_404, render
 
-from .models import Category, Product
+from .models import Category, Product, ProductVariant
 
 
 SORT_OPTIONS = {
@@ -54,9 +54,40 @@ def product_list(request):
 
 def product_detail(request, slug):
     product = get_object_or_404(
-        Product.objects.select_related("category"),
+        Product.objects.select_related("category").prefetch_related(
+            Prefetch(
+                "variants",
+                queryset=ProductVariant.objects.filter(is_active=True).order_by("id"),
+                to_attr="active_variants",
+            )
+        ),
         slug=slug,
         is_active=True,
         category__is_active=True,
     )
-    return render(request, "products/detail.html", {"product": product})
+    related_products = list(
+        Product.objects.filter(
+            is_active=True,
+            category__is_active=True,
+            category=product.category,
+        )
+        .exclude(pk=product.pk)
+        .select_related("category")[:3]
+    )
+    if len(related_products) < 3:
+        excluded_ids = [product.pk, *(item.pk for item in related_products)]
+        related_products.extend(
+            Product.objects.filter(is_active=True, category__is_active=True)
+            .exclude(pk__in=excluded_ids)
+            .select_related("category")[: 3 - len(related_products)]
+        )
+
+    return render(
+        request,
+        "products/detail.html",
+        {
+            "product": product,
+            "variants": product.active_variants,
+            "related_products": related_products,
+        },
+    )
