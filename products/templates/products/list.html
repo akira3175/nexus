@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% load static %}
+{% load product_tags %}
+
+{% block title %}Bộ sưu tập | Nexus{% endblock %}
+{% block body_class %}home-page collection-page content-page{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/products.css' %}">{% endblock %}
+
+{% block content %}
+  <section id="catalog" class="section" aria-labelledby="catalog-title">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <span class="section-kicker">Nexus Menswear</span>
+          <h1 id="catalog-title" class="section-title">Bộ sưu tập</h1>
+        </div>
+      </div>
+
+      <div class="filter-bar">
+        <nav class="category-pills" aria-label="Lọc theo danh mục">
+          <a class="pill-btn{% if not selected_category %} active{% endif %}"
+             href="?{% if q %}q={{ q|urlencode }}&amp;{% endif %}sort={{ sort }}">Tất cả</a>
+          {% for category in categories %}
+            <a class="pill-btn{% if selected_category == category.slug %} active{% endif %}"
+               href="?category={{ category.slug }}{% if q %}&amp;q={{ q|urlencode }}{% endif %}&amp;sort={{ sort }}">
+              {{ category.name }}
+            </a>
+          {% endfor %}
+        </nav>
+
+        <form class="collection-search" method="get" role="search">
+          {% if selected_category %}<input type="hidden" name="category" value="{{ selected_category }}">{% endif %}
+          <input type="hidden" name="sort" value="{{ sort }}">
+          <div class="collection-search-control">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg>
+            <input type="search" name="q" value="{{ q }}" aria-label="Tìm sản phẩm" placeholder="Tìm sản phẩm…" maxlength="100">
+          </div>
+        </form>
+
+        <form class="sort-select-wrap" method="get">
+          {% if q %}<input type="hidden" name="q" value="{{ q }}">{% endif %}
+          {% if selected_category %}<input type="hidden" name="category" value="{{ selected_category }}">{% endif %}
+          <label for="catalog-sort">Sắp xếp:</label>
+          <select id="catalog-sort" name="sort" class="sort-select" onchange="this.form.submit()">
+            <option value="featured"{% if sort == "featured" %} selected{% endif %}>Nổi bật</option>
+            <option value="price-asc"{% if sort == "price-asc" %} selected{% endif %}>Giá thấp đến cao</option>
+            <option value="price-desc"{% if sort == "price-desc" %} selected{% endif %}>Giá cao đến thấp</option>
+          </select>
+          <button class="visually-hidden" type="submit">Áp dụng sắp xếp</button>
+        </form>
+      </div>
+
+      <div class="product-grid">
+        {% for product in products %}
+          <article class="product-card">
+            <div class="card-media">
+              <a class="card-image-link" href="{{ product.get_absolute_url }}" aria-label="Xem {{ product.name }}">
+                {% if product.image %}
+                  <img src="{{ product.image.url }}" alt="{{ product.name }}" loading="lazy" width="1024" height="1024">
+                {% else %}
+                  <span class="product-image-placeholder" aria-hidden="true">NEXUS</span>
+                {% endif %}
+              </a>
+            </div>
+            <div class="card-body">
+              <div class="card-heading-row">
+                <h2 class="card-title"><a href="{{ product.get_absolute_url }}">{{ product.name }}</a></h2>
+                <span class="current-price">{{ product.price|vnd }}</span>
+              </div>
+              <span class="card-category">{{ product.category.name }}</span>
+            </div>
+          </article>
+        {% empty %}
+          <p class="catalog-empty" role="status">
+            {% if q %}Không tìm thấy sản phẩm phù hợp.{% else %}Danh mục này chưa có sản phẩm.{% endif %}
+          </p>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+{% endblock %}

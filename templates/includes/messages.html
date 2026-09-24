@@ -1,0 +1,9 @@
+{% if messages %}
+  <div class="site-messages container" aria-label="Thông báo">
+    {% for message in messages %}
+      <div class="site-message{% if message.tags %} site-message-{{ message.tags }}{% endif %}" role="status">
+        {{ message }}
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}

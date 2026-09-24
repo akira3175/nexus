@@ -2,8 +2,8 @@ from django.shortcuts import render
 
 def home(request):
     context = {
-        "page_title": "Nexus - Đồng hồ chính hãng",
-        "heading": "Khám phá bộ sưu tập đồng hồ",
+        "page_title": "Nexus Menswear",
+        "heading": "Khám phá bộ sưu tập trang phục nam",
     }
     return render(request, "core/home.html", context)
 
