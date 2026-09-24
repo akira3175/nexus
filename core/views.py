@@ -11,4 +11,4 @@ def contact(request):
     pass
 
 def aboutus(request):
-    pass
+    return render(request, "core/aboutus.html")

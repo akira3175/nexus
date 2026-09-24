@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block body_class %}home-page{% endblock %}
+
+{% block content %}
+    <!-- About Nexus -->
+    <section id="craftsmanship" class="about-section">
+      <div class="container about-grid">
+        <figure class="about-visual">
+          <img src="{% static 'assets/images/menswear/tailor-at-work.png' %}" alt="Người thợ may đang cắt vải suit tại bàn làm việc" loading="lazy" width="1536" height="1024">
+          <figcaption><strong>NEXUS</strong><span>Menswear &amp; Tailoring</span></figcaption>
+        </figure>
+        <div class="about-copy">
+          <h2>Giới thiệu Nexus</h2>
+          <p>Nexus tập trung vào những món đồ nam có tỷ lệ rõ ràng, chất liệu phù hợp và khả năng sử dụng lâu dài. Mỗi thiết kế bắt đầu từ cách trang phục nằm trên cơ thể, thay vì những chi tiết trang trí không cần thiết.</p>
+          <p>Bộ sưu tập hiện tại gồm suit, blazer, sơ mi và quần — những thành phần nền tảng có thể mặc riêng hoặc phối thành một tủ đồ thống nhất.</p>
+        </div>
+      </div>
+    </section>
+{% endblock %}

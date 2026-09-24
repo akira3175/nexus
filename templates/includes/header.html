@@ -2,26 +2,26 @@
 
   <header class="site-header">
     <div class="container header-inner">
-      <a href="{% url 'core:home' %}" class="logo-wrap" aria-label="Nexus Menswear — Trang chủ">
+      <a href="index.html" class="logo-wrap" aria-label="Nexus Menswear — Trang chủ">
         <span class="logo-wordmark" aria-hidden="true">NEXUS</span>
       </a>
       <nav class="nav-desktop" aria-label="Điều hướng chính">
-        <a href="{% url 'core:home' %}" class="nav-link{% if request.resolver_match.namespace == 'core' %} active{% endif %}">Trang chủ</a>
+        <a href="{% url 'core:home' %}" class="nav-link{% if request.resolver_match.view_name == 'core:home' %} active{% endif %}">Trang chủ</a>
         <a href="{% url 'products:list' %}" class="nav-link{% if request.resolver_match.namespace == 'products' %} active{% endif %}">Bộ sưu tập</a>
-        <a href="{% url 'core:home' %}#craftsmanship" class="nav-link">Về Nexus</a>
-        <span class="nav-link nav-link-disabled" aria-disabled="true">Liên hệ</span>
+        <a href="{% url 'core:aboutus' %}" class="nav-link{% if request.resolver_match.view_name == 'core:aboutus' %} active{% endif %}">Về Nexus</a>
+        <a href="#" class="nav-link">Liên hệ</a>
       </nav>
       <div class="header-actions" aria-label="Tiện ích cửa hàng">
-        <span class="header-icon-link action-btn-wrap header-action-disabled" aria-label="Giỏ hàng chưa khả dụng" title="Giỏ hàng chưa khả dụng">
+        <a class="header-icon-link action-btn-wrap" href="cart.html" aria-label="Mở giỏ hàng" title="Giỏ hàng">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 8.5h11l1 12h-13l1-12Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></svg>
           <span id="header-cart-count" class="badge-count" style="display:none">0</span>
-        </span>
-        <span class="header-icon-link header-action-disabled" aria-label="Tài khoản chưa khả dụng" title="Tài khoản chưa khả dụng">
+        </a>
+        <a href="#" class="header-icon-link" aria-label="Đăng nhập tài khoản" title="Đăng nhập">
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
             <circle cx="12" cy="7" r="4"/>
          </svg>
-        </span>
+        </a>
       </div>
     </div>
   </header>
