@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% load static %}
+{% load product_tags %}
+
+{% block title %}Hóa đơn #{{ order.pk }} | Nexus{% endblock %}
+{% block body_class %}menswear-page{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/cart-orders.css' %}">{% endblock %}
+
+{% block content %}
+<section class="container commerce-page invoice-container">
+  <h1>Hóa đơn #{{ order.pk }}</h1>
+  <p class="commerce-lead">{{ order.created_at }} · {{ order.get_status_display }}</p>
+
+  <div class="invoice-meta">
+    <div>
+      <h2>Người nhận</h2>
+      <p><strong>{{ order.receiver_name }}</strong></p>
+      <p>Điện thoại: {{ order.phone }}</p>
+      <p>Địa chỉ: {{ order.address }}</p>
+    </div>
+    <div>
+      <h2>Thanh toán</h2>
+      <p>Phương thức: {{ order.payment_method|upper }}</p>
+      <p>Phí vận chuyển: {% if order.shipping_fee %}{{ order.shipping_fee|vnd }}{% else %}Miễn phí{% endif %}</p>
+      {% if order.note %}<p>Ghi chú: {{ order.note }}</p>{% endif %}
+    </div>
+  </div>
+
+  <table class="cart-table">
+    <thead>
+      <tr>
+        <th>Sản phẩm</th>
+        <th>Size / màu</th>
+        <th>Số lượng</th>
+        <th>Đơn giá</th>
+        <th>Thành tiền</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in order_items %}
+        <tr>
+          <td>{{ item.product_name }}</td>
+          <td>{{ item.size }} · {{ item.color }}</td>
+          <td>{{ item.quantity }}</td>
+          <td>{{ item.unit_price|vnd }}</td>
+          <td>{{ item.line_total|vnd }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <div class="invoice-totals">
+    <p class="invoice-grand">Tổng: {{ order.total_amount|vnd }}</p>
+    <p><a href="{% url 'orders:list' %}">Danh sách đơn hàng</a></p>
+    <p><a href="{% url 'products:list' %}" class="btn btn-outline cart-continue-btn">Tiếp tục mua sắm</a></p>
+  </div>
+</section>
+{% endblock %}

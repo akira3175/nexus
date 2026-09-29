@@ -4,8 +4,8 @@
   <div class="container">
     <div class="footer-grid">
       <div class="footer-col footer-intro"><h4>Nexus Menswear</h4><p>Trang phục nam được xây dựng từ phom dáng, chất liệu và khả năng phối hợp.</p></div>
-      <div class="footer-col"><h4>Mua sắm</h4><ul class="footer-links"><li><a href="collection.html">Bộ sưu tập</a></li><li><a href="cart.html">Giỏ hàng</a></li><li><a href="checkout.html">Thanh toán</a></li></ul></div>
-      <div class="footer-col"><h4>Thông tin</h4><ul class="footer-links"><li><a href="product.html?id=navy-suit">Thông tin sản phẩm</a></li><li><a href="about.html">Phom &amp; chất liệu</a></li><li><a href="contact.html">Liên hệ</a></li></ul></div>
+      <div class="footer-col"><h4>Mua sắm</h4><ul class="footer-links"><li><a href="{% url 'products:list' %}">Bộ sưu tập</a></li><li><a href="{% url 'cart:detail' %}">Giỏ hàng</a></li><li><a href="{% url 'orders:checkout' %}">Thanh toán</a></li></ul></div>
+      <div class="footer-col"><h4>Thông tin</h4><ul class="footer-links"><li><a href="{% url 'products:list' %}">Thông tin sản phẩm</a></li><li><a href="{% url 'core:aboutus' %}">Phom &amp; chất liệu</a></li><li><a href="#">Liên hệ</a></li></ul></div>
     </div>
     <div class="footer-bottom"><span>© 2026 NEXUS Menswear.</span><span>Menswear &amp; Tailoring</span></div>
   </div>

@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+{% load static %}
+{% load product_tags %}
+
+{% block title %}Giỏ hàng | Nexus{% endblock %}
+{% block body_class %}menswear-page{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/cart-orders.css' %}">{% endblock %}
+
+{% block content %}
+<section class="container commerce-page">
+  <h1>Giỏ hàng</h1>
+
+  {% if not cart_items %}
+    <div class="commerce-empty">
+      <h2>Giỏ hàng chưa có sản phẩm</h2>
+      <p>Khám phá suit, blazer, sơ mi và quần trong bộ sưu tập Nexus.</p>
+      <a href="{% url 'products:list' %}" class="btn btn-primary">Khám phá bộ sưu tập</a>
+    </div>
+  {% else %}
+    <p class="commerce-lead">Kiểm tra size, màu và số lượng trước khi đặt hàng.</p>
+    <div class="cart-page-grid">
+      <div class="cart-panel">
+        <table class="cart-table">
+          <thead>
+            <tr>
+              <th>Sản phẩm</th>
+              <th>Đơn giá</th>
+              <th>Số lượng</th>
+              <th>Thành tiền</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in cart_items %}
+              <tr class="cart-row" data-unit-price="{{ item.unit_price }}">
+                <td>
+                  <div class="cart-product">
+                    <a class="cart-product-image" href="{{ item.product.get_absolute_url }}">
+                      {% if item.product.image %}
+                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" width="88" height="88">
+                      {% else %}
+                        <span aria-hidden="true">NEXUS</span>
+                      {% endif %}
+                    </a>
+                    <div>
+                      <a class="cart-product-name" href="{{ item.product.get_absolute_url }}">{{ item.product.name }}</a>
+                      <div class="cart-product-meta">{{ item.variant.size }} · {{ item.variant.color }}</div>
+                      {% if not item.in_stock %}
+                        <div class="cart-stock-alert" role="alert">Vượt tồn kho (còn {{ item.variant.stock }}).</div>
+                      {% endif %}
+                    </div>
+                  </div>
+                </td>
+                <td>{{ item.unit_price|vnd }}</td>
+                <td>
+                  <form class="cart-qty-form" method="post" action="{% url 'cart:update' item.variant.id %}">
+                    {% csrf_token %}
+                    <div class="cart-stepper" aria-label="Số lượng">
+                      <button type="button" data-step="-1" aria-label="Giảm số lượng">−</button>
+                      <input type="number" name="quantity" value="{{ item.quantity }}" min="1" max="{{ item.variant.stock }}" inputmode="numeric" aria-label="Số lượng">
+                      <button type="button" data-step="1" aria-label="Tăng số lượng">+</button>
+                    </div>
+                  </form>
+                </td>
+                <td class="cart-line-total">{{ item.line_total|vnd }}</td>
+                <td>
+                  <form method="post" action="{% url 'cart:remove' item.variant.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline cart-remove">Xóa</button>
+                  </form>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <aside class="summary-card" data-shipping-fee="{{ shipping_fee }}">
+        <h2>Tóm tắt đơn hàng</h2>
+        <div class="summary-row">
+          <span>Tạm tính</span>
+          <span data-cart-subtotal>{{ subtotal|vnd }}</span>
+        </div>
+        <div class="summary-row">
+          <span>Phí vận chuyển</span>
+          <span>{% if shipping_fee %}{{ shipping_fee|vnd }}{% else %}Miễn phí{% endif %}</span>
+        </div>
+        <div class="summary-row total">
+          <span>Tổng thanh toán</span>
+          <span data-cart-total>{{ total|vnd }}</span>
+        </div>
+        <div class="summary-actions">
+          <a href="{% url 'products:list' %}" class="btn btn-outline cart-continue-btn">Tiếp tục mua sắm</a>
+          <a href="{% url 'orders:checkout' %}" class="btn btn-primary">Tiến hành đặt hàng</a>
+        </div>
+      </aside>
+    </div>
+  {% endif %}
+</section>
+{% endblock %}
+
+{% block extra_js %}<script src="{% static 'js/cart-page.js' %}" defer></script>{% endblock %}

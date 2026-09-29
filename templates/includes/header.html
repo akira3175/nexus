@@ -2,7 +2,7 @@
 
   <header class="site-header">
     <div class="container header-inner">
-      <a href="index.html" class="logo-wrap" aria-label="Nexus Menswear — Trang chủ">
+      <a href="{% url 'core:home' %}" class="logo-wrap" aria-label="Nexus Menswear — Trang chủ">
         <span class="logo-wordmark" aria-hidden="true">NEXUS</span>
       </a>
       <nav class="nav-desktop" aria-label="Điều hướng chính">
@@ -12,9 +12,9 @@
         <a href="#" class="nav-link">Liên hệ</a>
       </nav>
       <div class="header-actions" aria-label="Tiện ích cửa hàng">
-        <a class="header-icon-link action-btn-wrap" href="cart.html" aria-label="Mở giỏ hàng" title="Giỏ hàng">
+        <a class="header-icon-link action-btn-wrap{% if request.resolver_match.namespace == 'cart' %} is-active{% endif %}" href="{% url 'cart:detail' %}" aria-label="Mở giỏ hàng" title="Giỏ hàng">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 8.5h11l1 12h-13l1-12Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></svg>
-          <span id="header-cart-count" class="badge-count" style="display:none">0</span>
+          <span id="header-cart-count" class="badge-count"{% if not cart_count %} style="display:none"{% endif %}>{{ cart_count }}</span>
         </a>
         <a href="#" class="header-icon-link" aria-label="Đăng nhập tài khoản" title="Đăng nhập">
           <svg viewBox="0 0 24 24" aria-hidden="true">
