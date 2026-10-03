@@ -1,58 +1,47 @@
 {% extends "base.html" %}
 {% load static %}
-{% load product_tags %}
 
 {% block title %}Thanh toán | Nexus{% endblock %}
 {% block body_class %}menswear-page{% endblock %}
-{% block extra_css %}<link rel="stylesheet" href="{% static 'css/cart-orders.css' %}">{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/cart-orders.css' %}?v=20261003-3">{% endblock %}
 
 {% block content %}
 <section class="container commerce-page">
   <h1>Thanh toán</h1>
   <p class="commerce-lead">Bản đầu chỉ hỗ trợ thanh toán khi nhận hàng (COD).</p>
-  <form method="post" class="checkout-grid">
+  <form id="checkoutForm" method="post" action="{% url 'orders:checkout' %}" class="checkout-grid">
     {% csrf_token %}
     <div class="checkout-form-card">
       <h2>Thông tin người nhận</h2>
-      {% if form.non_field_errors %}
-        <div role="alert">{{ form.non_field_errors }}</div>
-      {% endif %}
+      {% if form.non_field_errors %}<div role="alert">{{ form.non_field_errors }}</div>{% endif %}
       {% for field in form.visible_fields %}
         <div class="form-group">
-          <label for="{{ field.id_for_label }}">
-            {{ field.label }}{% if field.field.required %} *{% endif %}
-          </label>
+          <label for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %} *{% endif %}</label>
           {{ field }}
-          {% if field.errors %}
-            <div id="{{ field.auto_id }}_error" role="alert">{{ field.errors }}</div>
-          {% endif %}
+          {% if field.errors %}<div id="{{ field.auto_id }}_error" role="alert">{{ field.errors }}</div>{% endif %}
         </div>
       {% endfor %}
       <p class="checkout-note">Phương thức thanh toán: COD — thanh toán khi nhận hàng.</p>
       <div class="summary-actions">
-        <a href="{% url 'cart:detail' %}" class="btn btn-outline cart-continue-btn">Quay lại giỏ hàng</a>
-        <button type="submit" class="btn btn-primary">Đặt hàng</button>
+        <a href="{% url 'orders:cart' %}" class="btn btn-outline cart-continue-btn">Quay lại giỏ hàng</a>
+        <button id="submitCheckout" type="submit" class="btn btn-primary">Đặt hàng</button>
       </div>
     </div>
     <aside class="summary-card">
       <h2>Đơn hàng</h2>
-      {% for item in cart_items %}
-        <div class="checkout-item">
-          <span>{{ item.product.name }}<br><small>{{ item.variant.size }} · {{ item.variant.color }} × {{ item.quantity }}</small></span>
-          <strong>{{ item.line_total|vnd }}</strong>
-        </div>
-      {% endfor %}
+      <p id="checkoutEmpty" hidden style="display:none">Giỏ hàng của bạn đang trống.</p>
+      <div id="checkoutItems"></div>
       <div class="summary-row">
         <span>Tạm tính</span>
-        <span>{{ subtotal|vnd }}</span>
+        <span id="checkoutSubtotal">0 ₫</span>
       </div>
       <div class="summary-row">
         <span>Phí vận chuyển</span>
-        <span>{% if shipping_fee %}{{ shipping_fee|vnd }}{% else %}Miễn phí{% endif %}</span>
+        <span>Miễn phí</span>
       </div>
       <div class="summary-row total">
         <span>Tổng</span>
-        <span>{{ total|vnd }}</span>
+        <span id="checkoutTotal">0 ₫</span>
       </div>
     </aside>
   </form>

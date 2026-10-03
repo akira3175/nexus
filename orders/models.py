@@ -2,6 +2,8 @@ from django.conf import settings
 from django.core.validators import MinValueValidator
 from django.db import models
 
+from products.models import ProductVariant
+
 
 class Order(models.Model):
     STATUS_PENDING = "pending"
@@ -9,6 +11,7 @@ class Order(models.Model):
     STATUS_SHIPPING = "shipping"
     STATUS_COMPLETED = "completed"
     STATUS_CANCELLED = "cancelled"
+
     STATUS_CHOICES = [
         (STATUS_PENDING, "Chờ xác nhận"),
         (STATUS_CONFIRMED, "Đã xác nhận"),
@@ -37,7 +40,11 @@ class Order(models.Model):
         validators=[MinValueValidator(0)],
     )
     payment_method = models.CharField(max_length=20, default="cod")
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=STATUS_PENDING)
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default=STATUS_PENDING,
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -54,14 +61,15 @@ class Order(models.Model):
             ),
         ]
 
+    # Tạo chuỗi nhận diện ngắn gọn cho đơn hàng trong trang quản trị.
     def __str__(self):
-        return f"Đơn #{self.pk}"
+        return f"Order #{self.pk} — {self.user}"
 
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="items")
     variant = models.ForeignKey(
-        "products.ProductVariant",
+        ProductVariant,
         on_delete=models.PROTECT,
         related_name="order_items",
     )
@@ -77,7 +85,10 @@ class OrderItem(models.Model):
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=["order", "variant"], name="unique_order_variant"),
+            models.UniqueConstraint(
+                fields=["order", "variant"],
+                name="unique_order_variant",
+            ),
             models.CheckConstraint(
                 condition=models.Q(quantity__gt=0),
                 name="orderitem_quantity_gt_zero",
@@ -88,6 +99,11 @@ class OrderItem(models.Model):
             ),
         ]
 
+    # Hiển thị tên và số lượng sản phẩm của dòng đơn hàng.
+    def __str__(self):
+        return f"{self.product_name} × {self.quantity}"
+
+    # Tính thành tiền của dòng sản phẩm từ đơn giá và số lượng.
     @property
     def line_total(self):
         return self.unit_price * self.quantity

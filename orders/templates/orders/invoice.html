@@ -2,56 +2,67 @@
 {% load static %}
 {% load product_tags %}
 
-{% block title %}Hóa đơn #{{ order.pk }} | Nexus{% endblock %}
+{% block title %}Đơn hàng #{{ order.pk }} | Nexus{% endblock %}
 {% block body_class %}menswear-page{% endblock %}
-{% block extra_css %}<link rel="stylesheet" href="{% static 'css/cart-orders.css' %}">{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/cart-orders.css' %}?v=20261003-3">{% endblock %}
 
 {% block content %}
-<section class="container commerce-page invoice-container">
-  <h1>Hóa đơn #{{ order.pk }}</h1>
-  <p class="commerce-lead">{{ order.created_at }} · {{ order.get_status_display }}</p>
+<section class="container commerce-page invoice-container order-detail-page">
+  <div class="order-detail-header">
+    <div>
+      <p class="order-eyebrow">CHI TIẾT ĐƠN HÀNG</p>
+      <h1>Đơn hàng #{{ order.pk }}</h1>
+      <p class="order-detail-date">Đặt ngày {{ order.created_at|date:"d/m/Y · H:i" }}</p>
+    </div>
+    <span class="order-status status-{{ order.status }}">{{ order.get_status_display }}</span>
+  </div>
 
   <div class="invoice-meta">
-    <div>
-      <h2>Người nhận</h2>
+    <div class="invoice-meta-card">
+      <h2>Thông tin giao hàng</h2>
       <p><strong>{{ order.receiver_name }}</strong></p>
       <p>Điện thoại: {{ order.phone }}</p>
       <p>Địa chỉ: {{ order.address }}</p>
+      {% if order.note %}<p>Ghi chú: {{ order.note }}</p>{% endif %}
     </div>
-    <div>
+    <div class="invoice-meta-card">
       <h2>Thanh toán</h2>
       <p>Phương thức: {{ order.payment_method|upper }}</p>
       <p>Phí vận chuyển: {% if order.shipping_fee %}{{ order.shipping_fee|vnd }}{% else %}Miễn phí{% endif %}</p>
-      {% if order.note %}<p>Ghi chú: {{ order.note }}</p>{% endif %}
     </div>
   </div>
 
-  <table class="cart-table">
-    <thead>
-      <tr>
-        <th>Sản phẩm</th>
-        <th>Size / màu</th>
-        <th>Số lượng</th>
-        <th>Đơn giá</th>
-        <th>Thành tiền</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for item in order_items %}
-        <tr>
-          <td>{{ item.product_name }}</td>
-          <td>{{ item.size }} · {{ item.color }}</td>
-          <td>{{ item.quantity }}</td>
-          <td>{{ item.unit_price|vnd }}</td>
-          <td>{{ item.line_total|vnd }}</td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+  <div class="order-items-panel">
+    <h2 class="order-section-title">Sản phẩm trong đơn</h2>
+    {% for item in order_items %}
+      <div class="order-line">
+        <div class="order-line-image">
+          {% if item.variant.product.image %}
+            <img src="{{ item.variant.product.image.url }}" alt="{{ item.product_name }}">
+          {% else %}
+            <span>NEXUS</span>
+          {% endif %}
+        </div>
+        <div class="order-line-info">
+          <h3>{{ item.product_name }}</h3>
+          <p>{{ item.size }} · {{ item.color }}</p>
+          <p>Đơn giá: {{ item.unit_price|vnd }}</p>
+          <span class="order-quantity">Số lượng: {{ item.quantity }}</span>
+        </div>
+        <strong class="order-line-price">{{ item.line_total|vnd }}</strong>
+      </div>
+    {% endfor %}
+  </div>
+
   <div class="invoice-totals">
-    <p class="invoice-grand">Tổng: {{ order.total_amount|vnd }}</p>
-    <p><a href="{% url 'orders:list' %}">Danh sách đơn hàng</a></p>
-    <p><a href="{% url 'products:list' %}" class="btn btn-outline cart-continue-btn">Tiếp tục mua sắm</a></p>
+    <div class="invoice-grand">
+      <span>Tổng thanh toán</span>
+      <strong>{{ order.total_amount|vnd }}</strong>
+    </div>
+    <div class="order-actions">
+      <a href="{% url 'orders:my_orders' %}" class="btn btn-outline">Danh sách đơn hàng</a>
+      <a href="{% url 'products:list' %}" class="btn btn-primary">Tiếp tục mua sắm</a>
+    </div>
   </div>
 </section>
 {% endblock %}

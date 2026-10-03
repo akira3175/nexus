@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Đăng nhập | Nexus{% endblock %}
+{% block body_class %}menswear-page{% endblock %}
+
+{% block content %}
+<section class="container commerce-page">
+  <h1>Đăng nhập</h1>
+  {% if next %}
+    <p class="commerce-lead">Đăng nhập để tiếp tục thanh toán.</p>
+  {% endif %}
+  <form method="post" class="checkout-form-card" style="max-width: 560px;">
+    {% csrf_token %}
+    {% if form.non_field_errors %}<div role="alert">{{ form.non_field_errors }}</div>{% endif %}
+    <div class="form-group">
+      <label for="{{ form.username.id_for_label }}">Tên đăng nhập</label>
+      {{ form.username }}
+      {% if form.username.errors %}<div role="alert">{{ form.username.errors }}</div>{% endif %}
+    </div>
+    <div class="form-group">
+      <label for="{{ form.password.id_for_label }}">Mật khẩu</label>
+      {{ form.password }}
+      {% if form.password.errors %}<div role="alert">{{ form.password.errors }}</div>{% endif %}
+    </div>
+    {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+    <button type="submit" class="btn btn-primary">Đăng nhập</button>
+  </form>
+</section>
+{% endblock %}

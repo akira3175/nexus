@@ -4,26 +4,57 @@
 
 {% block title %}Đơn hàng | Nexus{% endblock %}
 {% block body_class %}menswear-page{% endblock %}
-{% block extra_css %}<link rel="stylesheet" href="{% static 'css/cart-orders.css' %}">{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/cart-orders.css' %}?v=20261003-3">{% endblock %}
 
 {% block content %}
-<section class="container commerce-page">
+<section class="container commerce-page orders-page">
   <h1>Đơn hàng của tôi</h1>
+  <p class="commerce-lead">Theo dõi trạng thái và xem lại các đơn hàng bạn đã đặt.</p>
   {% if not orders %}
     <div class="commerce-empty">
       <h2>Bạn chưa có đơn hàng</h2>
-      <p>Đặt hàng từ bộ sưu tập để xem hóa đơn tại đây.</p>
+      <p>Đặt hàng từ bộ sưu tập để xem đơn tại đây.</p>
       <a href="{% url 'products:list' %}" class="btn btn-primary cart-continue-btn">Tiếp tục mua sắm</a>
     </div>
   {% else %}
-    <ul class="order-list">
-      {% for order in orders %}
-        <li>
-          <span>Đơn #{{ order.pk }} · {{ order.get_status_display }} · {{ order.total_amount|vnd }}</span>
-          <a href="{% url 'orders:invoice' order.pk }}" class="btn btn-outline">Xem hóa đơn</a>
-        </li>
-      {% endfor %}
-    </ul>
+    {% for order in orders %}
+      <article class="order-card">
+        <div class="order-header">
+          <div class="order-heading">
+            <span class="order-label">Mã đơn hàng</span>
+            <h2 class="order-number">#{{ order.pk }}</h2>
+            <span class="order-date">Đặt ngày {{ order.created_at|date:"d/m/Y · H:i" }}</span>
+          </div>
+          <span class="order-status status-{{ order.status }}">{{ order.get_status_display }}</span>
+        </div>
+        <div class="order-body">
+          {% for item in order.items.all %}
+            <div class="order-line">
+              <div class="order-line-image">
+                {% if item.variant.product.image %}
+                  <img src="{{ item.variant.product.image.url }}" alt="{{ item.product_name }}">
+                {% else %}
+                  <span>NEXUS</span>
+                {% endif %}
+              </div>
+              <div class="order-line-info">
+                <h3>{{ item.product_name }}</h3>
+                <p>{{ item.size }} · {{ item.color }}</p>
+                <span class="order-quantity">Số lượng: {{ item.quantity }}</span>
+              </div>
+              <strong class="order-line-price">{{ item.line_total|vnd }}</strong>
+            </div>
+          {% endfor %}
+          <div class="order-footer">
+            <div class="order-total-group">
+              <span>Tổng thanh toán</span>
+              <strong class="order-total">{{ order.total_amount|vnd }}</strong>
+            </div>
+            <a href="{% url 'orders:order_detail' order.pk %}" class="btn btn-outline order-detail-link">Xem chi tiết</a>
+          </div>
+        </div>
+      </article>
+    {% endfor %}
   {% endif %}
 </section>
 {% endblock %}
