@@ -17,7 +17,7 @@ class OrderItemInline(admin.TabularInline):
     # Định dạng thành tiền của một dòng sản phẩm để hiển thị trong trang quản trị.
     @admin.display(description="Thành tiền")
     def item_total(self, obj):
-        return format_html("{:,.0f} ₫", obj.line_total)
+        return format_html("{} ₫", format(obj.line_total, ",.0f"))
 
     # Không cho quản trị viên thêm dòng sản phẩm trực tiếp từ đơn hàng.
     def has_add_permission(self, request, obj=None):
@@ -35,6 +35,7 @@ class OrderAdmin(admin.ModelAdmin):
         "status",
         "created_at",
     )
+    # Lọc theo khoảng ngày của Django, không cần MySQL chuyển múi giờ theo tên vùng.
     list_filter = ("status", "created_at")
     search_fields = ("id", "user__username", "receiver_name", "phone", "address")
     readonly_fields = ("user", "shipping_fee", "total_amount", "payment_method", "created_at", "updated_at")
@@ -43,13 +44,12 @@ class OrderAdmin(admin.ModelAdmin):
         ("Giao hàng", {"fields": ("receiver_name", "phone", "address", "note")}),
     )
     inlines = (OrderItemInline,)
-    date_hierarchy = "created_at"
     actions = ("mark_as_confirmed", "mark_as_shipping", "mark_as_completed", "mark_as_cancelled")
 
     # Định dạng tổng tiền của đơn hàng trong danh sách quản trị.
     @admin.display(description="Tổng tiền", ordering="total_amount")
     def formatted_total(self, obj):
-        return format_html("{:,.0f} ₫", obj.total_amount)
+        return format_html("{} ₫", format(obj.total_amount, ",.0f"))
 
     # Chuyển các đơn đang chờ sang trạng thái đã xác nhận.
     @admin.action(description="Xác nhận đơn đang chờ")
@@ -104,26 +104,5 @@ class OrderAdmin(admin.ModelAdmin):
         return False
 
     # Không cho xóa đơn hàng để giữ lại lịch sử giao dịch.
-    def has_delete_permission(self, request, obj=None):
-        return False
-
-
-@admin.register(OrderItem)
-class OrderItemAdmin(admin.ModelAdmin):
-    list_display = ("order", "product_name", "size", "color", "quantity", "unit_price", "line_total")
-    list_filter = ("order__status", "order__created_at")
-    search_fields = ("order__id", "product_name", "variant__sku")
-    readonly_fields = ("order", "variant", "product_name", "size", "color", "quantity", "unit_price")
-
-    # Định dạng thành tiền của sản phẩm trong danh sách quản trị.
-    @admin.display(description="Thành tiền")
-    def line_total(self, obj):
-        return format_html("{:,.0f} ₫", obj.line_total)
-
-    # Không cho tạo dòng sản phẩm đơn hàng thủ công.
-    def has_add_permission(self, request):
-        return False
-
-    # Không cho xóa dòng sản phẩm để bảo toàn chi tiết đơn đã đặt.
     def has_delete_permission(self, request, obj=None):
         return False
