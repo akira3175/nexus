@@ -1,3 +1,6 @@
+from urllib.parse import urlencode
+
+from django.core.paginator import Paginator
 from django.db.models import Prefetch, Q
 from django.shortcuts import get_object_or_404, render
 
@@ -9,6 +12,7 @@ SORT_OPTIONS = {
     "price-asc": ("price", "id"),
     "price-desc": ("-price", "id"),
 }
+PRODUCTS_PER_PAGE = 12
 
 
 def product_list(request):
@@ -38,12 +42,32 @@ def product_list(request):
         selected_category = ""
 
     products = products.order_by(*SORT_OPTIONS[sort])
+    paginator = Paginator(products, PRODUCTS_PER_PAGE)
+    page_obj = paginator.get_page(request.GET.get("page"))
+
+    pagination_params = {}
+    if query:
+        pagination_params["q"] = query
+    if selected_category:
+        pagination_params["category"] = selected_category
+    if sort != "featured":
+        pagination_params["sort"] = sort
 
     return render(
         request,
         "products/list.html",
         {
-            "products": products,
+            "products": page_obj,
+            "page_obj": page_obj,
+            "page_numbers": list(
+                paginator.get_elided_page_range(
+                    number=page_obj.number,
+                    on_each_side=1,
+                    on_ends=1,
+                )
+            ),
+            "pagination_ellipsis": paginator.ELLIPSIS,
+            "pagination_query": urlencode(pagination_params),
             "categories": categories,
             "q": query,
             "selected_category": selected_category,
