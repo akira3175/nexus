@@ -75,6 +75,30 @@
           </p>
         {% endfor %}
       </div>
+
+      {% if page_obj.paginator.num_pages > 1 %}
+        <nav class="pagination" aria-label="Phân trang sản phẩm">
+          {% if page_obj.has_previous %}
+            <a class="pagination-link" href="?page=1{% if pagination_query %}&amp;{{ pagination_query }}{% endif %}" aria-label="Trang đầu">«</a>
+            <a class="pagination-link" href="?page={{ page_obj.previous_page_number }}{% if pagination_query %}&amp;{{ pagination_query }}{% endif %}" rel="prev">Trước</a>
+          {% endif %}
+
+          {% for page_number in page_numbers %}
+            {% if page_number == pagination_ellipsis %}
+              <span class="pagination-ellipsis" aria-hidden="true">…</span>
+            {% elif page_number == page_obj.number %}
+              <span class="pagination-link is-current" aria-current="page">{{ page_number }}</span>
+            {% else %}
+              <a class="pagination-link" href="?page={{ page_number }}{% if pagination_query %}&amp;{{ pagination_query }}{% endif %}" aria-label="Trang {{ page_number }}">{{ page_number }}</a>
+            {% endif %}
+          {% endfor %}
+
+          {% if page_obj.has_next %}
+            <a class="pagination-link" href="?page={{ page_obj.next_page_number }}{% if pagination_query %}&amp;{{ pagination_query }}{% endif %}" rel="next">Sau</a>
+            <a class="pagination-link" href="?page={{ page_obj.paginator.num_pages }}{% if pagination_query %}&amp;{{ pagination_query }}{% endif %}" aria-label="Trang cuối">»</a>
+          {% endif %}
+        </nav>
+      {% endif %}
     </div>
   </section>
 {% endblock %}
