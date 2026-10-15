@@ -28,6 +28,45 @@
   text-align: center;
 }
 
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 56px;
+}
+
+.pagination-link,
+.pagination-ellipsis {
+  display: inline-grid;
+  min-width: 42px;
+  min-height: 42px;
+  place-items: center;
+  padding: 0 10px;
+  border: 1px solid rgba(32, 38, 58, .28);
+  color: #20263a;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.pagination-link:hover,
+.pagination-link:focus-visible {
+  border-color: #394768;
+  outline: 2px solid #394768;
+  outline-offset: 2px;
+}
+
+.pagination-link.is-current {
+  border-color: #394768;
+  background: #394768;
+  color: #f6f0e2;
+}
+
+.pagination-ellipsis {
+  border-color: transparent;
+}
+
 .product-selection {
   display: grid;
   gap: 16px;
