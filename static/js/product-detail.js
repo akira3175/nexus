@@ -4,6 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const minusButton = document.getElementById("detail-qty-minus");
   const plusButton = document.getElementById("detail-qty-plus");
   const status = document.getElementById("variant-status");
+  const addButton = document.getElementById("detail-add-to-cart");
 
   function updateQuantityControls() {
     const selected = variantSelect?.selectedOptions[0];
@@ -14,6 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
     quantityInput.disabled = !hasVariant;
     minusButton.disabled = !hasVariant;
     plusButton.disabled = !hasVariant;
+    if (addButton) addButton.disabled = !hasVariant;
 
     if (!hasVariant) {
       quantityInput.value = "1";
@@ -28,6 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   variantSelect?.addEventListener("change", updateQuantityControls);
+  updateQuantityControls();
   minusButton?.addEventListener("click", () => {
     quantityInput.value = String(Math.max(1, Number(quantityInput.value) - 1));
   });
